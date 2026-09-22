@@ -1,5 +1,5 @@
 /**
- * 청담명리 (淸潭命理) 프론트엔드 컨트롤러 & 렌더러
+ * FiveFlow (파이브플로우) 프론트엔드 컨트롤러 & 렌더러
  */
 
 let currentGender = '남';
@@ -411,7 +411,7 @@ function resetForm() {
 // 7. 결과 공유 / 클립보드 복사
 function shareResult() {
     if (!sajuData) return;
-    const shareText = `[청담명리] ${sajuData.name} 님의 사주 감정 결과\n• 가장 왕성한 기운: ${sajuData.dominantElement}(木·火·土·金·水)\n• 대운 흐름: ${sajuData.currentDaeunKanJi} 대운 (~${sajuData.currentDaeunEndAge}세까지)\n• 2026년 총평: ${sajuData.yearFortune.headline}\n확인하기: ${window.location.href}`;
+    const shareText = `[FiveFlow] ${sajuData.name} 님의 사주 감정 결과\n• 가장 왕성한 기운: ${sajuData.dominantElement}(木·火·土·金·水)\n• 대운 흐름: ${sajuData.currentDaeunKanJi} 대운 (~${sajuData.currentDaeunEndAge}세까지)\n• 2026년 총평: ${sajuData.yearFortune.headline}\n확인하기: ${window.location.href}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(shareText).then(() => {
