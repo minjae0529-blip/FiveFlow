@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>청담명리 淸潭命理 — 프리미엄 사주 & 운세 풀이</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+KR:wght@300;400;600;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="stars-bg"></div>
+    <div class="ambient-glow"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="emblem">
+                <svg viewBox="0 0 100 100" class="emblem-svg">
+                    <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+                    <circle cx="50" cy="50" r="41" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.6"/>
+                    <polygon points="50,14 86,50 50,86 14,50" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7"/>
+                    <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M50 24 A13 13 0 0 0 50 50 A13 13 0 0 1 50 76 A26 26 0 0 0 50 24" fill="currentColor" opacity="0.3"/>
+                </svg>
+            </div>
+            <div class="brand-titles">
+                <span class="sub-label">TRADITIONAL ORIENTAL ASTROLOGY</span>
+                <h1 class="main-title">청담명리 <span>淸潭命理</span></h1>
+                <p class="tagline">하늘이 부여한 타고난 그릇과 시운(時運)의 흐름을 짚어냅니다</p>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- INPUT SECTION -->
+            <section id="inputSection" class="card form-card">
+                <div class="card-deco-corner top-left"></div>
+                <div class="card-deco-corner top-right"></div>
+                <div class="card-deco-corner bottom-left"></div>
+                <div class="card-deco-corner bottom-right"></div>
+
+                <div class="form-header">
+                    <h2>사주 명식(命式) 작성</h2>
+                    <p>정확한 천간과 지지의 조화를 읽어내기 위해 태어난 때를 기록해 주세요.</p>
+                </div>
+
+                <form id="sajuForm" onsubmit="event.preventDefault(); submitSaju();">
+                    <!-- Name & Gender -->
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label for="userName">성함 또는 호칭</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="userName" placeholder="이름을 입력하세요" value="김도윤" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>성별</label>
+                            <div class="segmented-control" id="genderSelect">
+                                <button type="button" class="segment-btn active" data-value="남">
+                                    <span class="symbol">乾</span> 남성
+                                </button>
+                                <button type="button" class="segment-btn" data-value="여">
+                                    <span class="symbol">坤</span> 여성
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Type -->
+                    <div class="form-group">
+                        <label>역법 구분</label>
+                        <div class="segmented-control compact" id="calendarSelect">
+                            <button type="button" class="segment-btn active" data-value="solar">양력 (Solar)</button>
+                            <button type="button" class="segment-btn" data-value="lunar">음력 (Lunar)</button>
+                        </div>
+                    </div>
+
+                    <!-- Birth Date -->
+                    <div class="form-group">
+                        <label>생년월일</label>
+                        <div class="date-select-grid">
+                            <div class="select-box">
+                                <select id="birthYear"></select>
+                                <span class="select-label">년</span>
+                            </div>
+                            <div class="select-box">
+                                <select id="birthMonth"></select>
+                                <span class="select-label">월</span>
+                            </div>
+                            <div class="select-box">
+                                <select id="birthDay"></select>
+                                <span class="select-label">일</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Birth Time -->
+                    <div class="form-group">
+                        <div class="label-with-action">
+                            <label>태어난 시간 (시진 선택)</label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="timeUnknown" onchange="toggleTimeInput()">
+                                <span class="custom-checkbox"></span>
+                                <span>시간을 잘 모릅니다 (시주 제외)</span>
+                            </label>
+                        </div>
+
+                        <div id="timeInputs" class="time-container">
+                            <div class="select-box full">
+                                <select id="sijinSelect" onchange="onSijinChange()">
+                                    <option value="23:30">자시 (子時) : 23:30 ~ 01:29</option>
+                                    <option value="01:30">축시 (丑時) : 01:30 ~ 03:29</option>
+                                    <option value="03:30">인시 (寅時) : 03:30 ~ 05:29</option>
+                                    <option value="05:30">묘시 (卯時) : 05:30 ~ 07:29</option>
+                                    <option value="07:30">진시 (辰時) : 07:30 ~ 09:29</option>
+                                    <option value="09:30">사시 (巳時) : 09:30 ~ 11:29</option>
+                                    <option value="11:30" selected>오시 (午時) : 11:30 ~ 13:29 (정오)</option>
+                                    <option value="13:30">미시 (未時) : 13:30 ~ 15:29</option>
+                                    <option value="15:30">신시 (申時) : 15:30 ~ 17:29</option>
+                                    <option value="17:30">유시 (酉時) : 17:30 ~ 19:29</option>
+                                    <option value="19:30">술시 (戌時) : 19:30 ~ 21:29</option>
+                                    <option value="21:30">해시 (亥時) : 21:30 ~ 23:29</option>
+                                    <option value="custom">직접 시간/분 입력</option>
+                                </select>
+                            </div>
+
+                            <div id="customTimeBox" class="custom-time-row" style="display: none;">
+                                <div class="select-box">
+                                    <select id="customHour"></select>
+                                    <span class="select-label">시</span>
+                                </div>
+                                <div class="select-box">
+                                    <select id="customMinute"></select>
+                                    <span class="select-label">분</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="submit-action">
+                        <button type="submit" class="btn-primary" id="btnSubmit">
+                            <span class="btn-glow"></span>
+                            <span class="btn-text">명식 감정(鑑定) 열기</span>
+                            <span class="btn-hanja">命式 啓示</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- LOADING OVERLAY -->
+            <div id="loadingBox" class="loading-state" style="display: none;">
+                <div class="compass-spinner">
+                    <div class="compass-inner"></div>
+                    <div class="compass-needle"></div>
+                </div>
+                <div class="loading-text">
+                    <h3>천기(天氣)와 지기(地氣)를 엮는 중...</h3>
+                    <p>음양오행의 균형과 대운의 궤도를 정밀 산출하고 있습니다</p>
+                </div>
+            </div>
+
+            <!-- RESULT SECTION -->
+            <section id="resultSection" class="result-container" style="display: none;">
+                <!-- Result Banner -->
+                <div class="result-banner card">
+                    <div class="user-meta">
+                        <div class="badge-tag">사주 명식 결과</div>
+                        <h2 id="resUserTitle">김도윤 님의 명식서</h2>
+                        <p class="birth-detail" id="resBirthText">1995년 05월 15일 (양력) · 오시(午時) 출생</p>
+                    </div>
+                    <div class="banner-action">
+                        <button type="button" class="btn-secondary" onclick="resetForm()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                <path d="M3 3v5h5"/>
+                            </svg>
+                            다시 감정하기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 1. Four Pillars (사주팔자 원국) -->
+                <div class="section-card card">
+                    <div class="card-title-bar">
+                        <h3>사주 원국 (四柱原局)</h3>
+                        <span class="desc-hint">태어난 년·월·일·시의 4기둥 8글자</span>
+                    </div>
+
+                    <div class="pillars-grid" id="pillarsContainer">
+                        <!-- Pillars injected by JS -->
+                    </div>
+
+                    <!-- Element Legend -->
+                    <div class="element-legend">
+                        <span class="legend-item"><i class="dot el-wood"></i> 목(木) : 성장, 추진</span>
+                        <span class="legend-item"><i class="dot el-fire"></i> 화(火) : 열정, 발현</span>
+                        <span class="legend-item"><i class="dot el-earth"></i> 토(土) : 신뢰, 중심</span>
+                        <span class="legend-item"><i class="dot el-metal"></i> 금(金) : 결단, 절제</span>
+                        <span class="legend-item"><i class="dot el-water"></i> 수(水) : 지혜, 유연</span>
+                    </div>
+                </div>
+
+                <!-- 2. Elements Distribution (오행 분석 - 뭐가 많고 부족한지) -->
+                <div class="section-card card highlight-card">
+                    <div class="card-title-bar">
+                        <h3>오행(五行) 에너지 분포 & 기운 진단</h3>
+                        <span class="badge-gold">오행 균형도</span>
+                    </div>
+
+                    <div class="element-bars" id="elementBarsContainer">
+                        <!-- Bars injected by JS -->
+                    </div>
+
+                    <div class="analysis-two-col">
+                        <!-- Dominant Element -->
+                        <div class="analysis-box dominant-box">
+                            <div class="box-badge max-badge">
+                                <span class="badge-icon">▲</span> 가장 왕성한 기운
+                            </div>
+                            <h4 id="dominantTitle">목(木)의 기운이 왕성합니다</h4>
+                            <p id="dominantContent">내용 로딩...</p>
+                        </div>
+
+                        <!-- Deficient Element -->
+                        <div class="analysis-box deficient-box">
+                            <div class="box-badge min-badge">
+                                <span class="badge-icon">▼</span> 보완이 필요한 기운
+                            </div>
+                            <h4 id="deficientTitle">금(金)의 기운이 부족합니다</h4>
+                            <p id="deficientContent">내용 로딩...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Daeun Analysis (대운 - 언제까지가 대운인가?) -->
+                <div class="section-card card daeun-card">
+                    <div class="card-title-bar">
+                        <h3>대운(大運)의 흐름 & 시운 진단</h3>
+                        <span class="tag-accent">10년 주기 운의 궤도</span>
+                    </div>
+
+                    <div class="daeun-highlight-box">
+                        <div class="daeun-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="daeun-highlight-text">
+                            <h4 id="daeunHeadline">현재 대운 안내</h4>
+                            <p id="daeunSummaryText">현재 32세이신 귀하는 28세부터 37세까지...</p>
+                        </div>
+                    </div>
+
+                    <div class="daeun-timeline" id="daeunTimeline">
+                        <!-- Daeun cards injected by JS -->
+                    </div>
+                </div>
+
+                <!-- 4. 조심해야 할 것 (주의사항) -->
+                <div class="section-card card warning-card">
+                    <div class="card-title-bar">
+                        <h3>올해 꼭 조심해야 할 점 (경계 경보)</h3>
+                        <span class="badge-alert">실패와 구설수를 피하는 비결</span>
+                    </div>
+
+                    <div class="caution-list" id="cautionList">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- 5. Fortune Choice Tabs (오늘의 운세 vs 2026년 전체 운) -->
+                <div class="section-card card fortune-tab-card">
+                    <div class="fortune-tab-header">
+                        <div class="tab-controls">
+                            <button type="button" class="tab-btn active" id="tabToday" onclick="switchFortuneTab('today')">
+                                <span class="tab-icon">✦</span>
+                                <span class="tab-title">오늘의 운세</span>
+                                <span class="tab-sub">오늘 하루의 기운과 행운</span>
+                            </button>
+                            <button type="button" class="tab-btn" id="tabYear" onclick="switchFortuneTab('year')">
+                                <span class="tab-icon">❂</span>
+                                <span class="tab-title">2026년 전체 운세</span>
+                                <span class="tab-sub">병오년 한 해의 총운과 사계절</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- TAB 1: 오늘의 운세 -->
+                    <div id="panelToday" class="tab-panel active">
+                        <div class="fortune-main-header">
+                            <div class="score-badge">
+                                <span class="score-num" id="todayScore">92</span>
+                                <span class="score-label">오늘의 운세 점수</span>
+                            </div>
+                            <div class="fortune-header-text">
+                                <div class="today-date-badge" id="todayDateStr">2026년 9월 22일</div>
+                                <h3 id="todayKeyword">귀인(貴人)과의 조우, 막힌 매듭이 풀리는 날</h3>
+                                <p id="todayCommentary">생각지도 못했던 곳에서 힌트를 얻거나...</p>
+                            </div>
+                        </div>
+
+                        <div class="scores-grid">
+                            <div class="score-item">
+                                <span class="s-label">재물운</span>
+                                <div class="s-bar"><div class="s-fill" id="todayWealthBar" style="width: 88%;"></div></div>
+                                <span class="s-val" id="todayWealthVal">88점</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="s-label">애정운</span>
+                                <div class="s-bar"><div class="s-fill" id="todayLoveBar" style="width: 95%;"></div></div>
+                                <span class="s-val" id="todayLoveVal">95점</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="s-label">직업·학업운</span>
+                                <div class="s-bar"><div class="s-fill" id="todayCareerBar" style="width: 90%;"></div></div>
+                                <span class="s-val" id="todayCareerVal">90점</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="s-label">건강·활력</span>
+                                <div class="s-bar"><div class="s-fill" id="todayHealthBar" style="width: 85%;"></div></div>
+                                <span class="s-val" id="todayHealthVal">85점</span>
+                            </div>
+                        </div>
+
+                        <div class="lucky-elements-grid">
+                            <div class="lucky-card">
+                                <span class="l-tag">행운의 컬러</span>
+                                <strong id="todayColor">포레스트 그린 & 에메랄드</strong>
+                            </div>
+                            <div class="lucky-card">
+                                <span class="l-tag">행운의 숫자</span>
+                                <strong id="todayNumber">3, 7, 8</strong>
+                            </div>
+                            <div class="lucky-card">
+                                <span class="l-tag">행운의 방위</span>
+                                <strong id="todayDirection">남동쪽 (번영의 방위)</strong>
+                            </div>
+                            <div class="lucky-card">
+                                <span class="l-tag">황금 시간대</span>
+                                <strong id="todayTime">오후 1:30 ~ 3:30</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: 이번년도 전체 운 -->
+                    <div id="panelYear" class="tab-panel" style="display: none;">
+                        <div class="fortune-main-header">
+                            <div class="score-badge year-badge">
+                                <span class="score-num" id="yearScore">88</span>
+                                <span class="score-label">올해 종합 지수</span>
+                            </div>
+                            <div class="fortune-header-text">
+                                <div class="today-date-badge year-theme" id="yearTitleBadge">2026년 병오년 (丙午年, 붉은 말의 해)</div>
+                                <h3 id="yearHeadline">역동적인 변화의 물결 속에서 결실을 거두는 비상의 해</h3>
+                                <p id="yearOverview">2026년 병오년은 강렬한 불꽃처럼 역동적이고...</p>
+                            </div>
+                        </div>
+
+                        <!-- 4대 분야별 심층 가이드 -->
+                        <div class="fields-guide-grid">
+                            <div class="field-card">
+                                <div class="f-header">
+                                    <span class="f-icon">💰</span>
+                                    <h4>재물 & 투자운</h4>
+                                </div>
+                                <p id="yearWealth">상반기에는 씨를 뿌리고...</p>
+                            </div>
+                            <div class="field-card">
+                                <div class="f-header">
+                                    <span class="f-icon">❤️</span>
+                                    <h4>애정 & 인연운</h4>
+                                </div>
+                                <p id="yearLove">솔로는 자신감 넘치고 매력적인...</p>
+                            </div>
+                            <div class="field-card">
+                                <div class="f-header">
+                                    <span class="f-icon">💼</span>
+                                    <h4>사업 & 직업운</h4>
+                                </div>
+                                <p id="yearCareer">기존에 해오던 일에서 실력을 인정받아...</p>
+                            </div>
+                            <div class="field-card">
+                                <div class="f-header">
+                                    <span class="f-icon">🌿</span>
+                                    <h4>건강 & 웰니스</h4>
+                                </div>
+                                <p id="yearHealth">심혈관계, 안구 피로, 목/어깨...</p>
+                            </div>
+                        </div>
+
+                        <!-- 사계절(분기별) 흐름 -->
+                        <div class="quarter-section">
+                            <h4 class="sub-heading">2026년 사계절 기운 흐름</h4>
+                            <div class="quarter-grid" id="quarterContainer">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- 특별 주의 월 -->
+                        <div class="warning-months-box">
+                            <h4>⚠️ 올해 특별히 신중해야 할 시기</h4>
+                            <ul id="warningMonthsList">
+                                <!-- Injected by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Action Buttons -->
+                <div class="bottom-bar">
+                    <button type="button" class="btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                        맨 위로 이동
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="shareResult()">
+                        명식 풀이 공유하기
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>© 2026 청담명리(淸潭命理) · 정통 음양오행 만세력 해석 엔진</p>
+            <p class="disclaimer">사주와 명리학은 삶의 지혜와 때를 아는 나침반이며, 최종 운명의 완성은 당신의 성실한 마음에 있습니다.</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
